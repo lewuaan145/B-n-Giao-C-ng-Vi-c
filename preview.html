@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Công việc hằng ngày — Xem trước</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F1F5EE; --ink:#1E2A22; --ink-soft:#55614F; --muted:#8A9284; --card:#FFFFFF;
+  --border:#E1E8DA; --accent:#E2596B; --accent-soft:#FBE3E6; --accent-ink:#7A2432;
+  --done:#3F8F5F; --done-soft:#E1F0E5; --radius:14px;
+  --shadow:0 1px 2px rgba(30,42,34,.06),0 4px 14px rgba(30,42,34,.05); font-size:16px;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; }
+h1,h2 { font-family:'Manrope','Inter',sans-serif; margin:0; }
+.demo-flag { background:#2A3A2E; color:#E1F0E5; text-align:center; font-size:12.5px; font-weight:600; padding:7px 10px; }
+.app { max-width:620px; margin:0 auto; padding-bottom:40px; }
+.topbar { background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; }
+.topbar-inner { max-width:620px; margin:0 auto; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.brand { display:flex; align-items:center; gap:10px; }
+.brand-mark { width:38px; height:38px; border-radius:10px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; flex-shrink:0; }
+.brand-text h1 { font-size:17px; font-weight:800; line-height:1.2; }
+.brand-text p { margin:2px 0 0; font-size:12.5px; color:var(--muted); font-weight:500; }
+.date-nav { display:flex; align-items:center; gap:6px; }
+.date-nav input[type="date"] { border:1px solid var(--border); border-radius:10px; padding:8px 10px; font-family:'Inter',sans-serif; font-size:14px; background:var(--bg); }
+.icon-btn { width:34px; height:34px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--ink-soft); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+#today-btn { color:var(--accent); font-size:12px; }
+.status-banner { max-width:620px; margin:14px 16px 0; padding:10px 14px; border-radius:10px; font-size:13.5px; font-weight:600; }
+.status-banner.ok { background:var(--done-soft); color:var(--done); }
+.hidden { display:none !important; }
+.content { padding:16px; display:flex; flex-direction:column; gap:14px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
+.card-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.card-head h2 { font-size:15px; font-weight:700; }
+.progress-pill { background:var(--accent-soft); color:var(--accent-ink); font-size:12.5px; font-weight:700; padding:3px 10px; border-radius:999px; }
+.progress-pill.complete { background:var(--done-soft); color:var(--done); }
+.checklist { list-style:none; margin:0 0 12px; padding:0; display:flex; flex-direction:column; gap:2px; }
+.checklist-item { display:flex; align-items:center; gap:10px; padding:9px 4px; border-bottom:1px solid var(--border); }
+.checklist-item:last-child { border-bottom:none; }
+.checklist-item input[type="checkbox"] { width:20px; height:20px; flex-shrink:0; accent-color:var(--done); cursor:pointer; }
+.checklist-item label { font-size:14.5px; flex:1; cursor:pointer; }
+.checklist-item.done label { color:var(--done); text-decoration:line-through; text-decoration-color:var(--done); }
+.remove-item-btn { background:none; border:none; color:var(--muted); font-size:13px; cursor:pointer; padding:4px 6px; flex-shrink:0; }
+.item-empty { color:var(--muted); font-size:13px; padding:4px 4px 10px; }
+.add-item-btn { width:100%; padding:10px; border:1.5px dashed var(--border); border-radius:10px; background:none; color:var(--ink-soft); font-size:13.5px; font-weight:600; cursor:pointer; }
+.add-form { display:flex; flex-direction:column; gap:8px; padding:12px; background:var(--bg); border-radius:10px; margin-top:8px; }
+.add-form input[type="text"] { width:100%; border:1px solid var(--border); border-radius:8px; padding:9px 11px; font-family:'Inter',sans-serif; font-size:14px; background:var(--card); }
+.add-form-row { display:flex; gap:8px; align-items:center; }
+.add-form-row input[type="date"] { flex:1; border:1px solid var(--border); border-radius:8px; padding:8px 9px; font-family:'Inter',sans-serif; font-size:13.5px; background:var(--card); }
+.add-form-confirm { border:none; background:var(--accent); color:#fff; font-weight:700; font-size:13.5px; padding:8px 14px; border-radius:8px; cursor:pointer; flex-shrink:0; }
+.add-form-cancel { border:none; background:none; color:var(--muted); font-size:13.5px; padding:8px 6px; cursor:pointer; flex-shrink:0; }
+.save-btn { border:none; border-radius:10px; background:var(--accent); color:#fff; font-size:14px; font-weight:700; padding:11px; cursor:pointer; width:100%; margin-top:4px; }
+.history-section { margin-top:6px; }
+.history-section .card-head { margin-bottom:10px; padding:0 2px; }
+.history-list { display:flex; flex-direction:column; gap:8px; }
+.history-item { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px 14px; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.history-item-left { display:flex; flex-direction:column; gap:2px; min-width:0; }
+.history-date { font-size:13.5px; font-weight:700; }
+.history-summary { font-size:12.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.history-progress { font-size:12px; font-weight:700; color:var(--accent-ink); background:var(--accent-soft); padding:3px 9px; border-radius:999px; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<div class="demo-flag">BẢN XEM TRƯỚC — dữ liệu giả lập, không kết nối Google Sheet thật</div>
+
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">CV</span>
+        <div class="brand-text"><h1>Công việc hằng ngày</h1><p id="weekday-label">—</p></div>
+      </div>
+      <div class="date-nav">
+        <button class="icon-btn" id="prev-day">‹</button>
+        <input type="date" id="date-input">
+        <button class="icon-btn" id="next-day">›</button>
+        <button class="icon-btn" id="today-btn" title="Về hôm nay">●</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <div id="status-banner" class="status-banner ok hidden">Đã lưu.</div>
+
+    <section class="card">
+      <div class="card-head"><h2>Công việc định kỳ</h2><span class="progress-pill" id="cl-pill">2/5</span></div>
+      <ul class="checklist" id="cl-list"></ul>
+      <button class="add-item-btn">+ Thêm việc phát sinh cho ngày này</button>
+      <button class="save-btn">Lưu công việc định kỳ</button>
+    </section>
+
+    <section class="card item-section" data-type="ctkm">
+      <div class="card-head"><h2>CTKM</h2><span class="progress-pill" data-role="pill">1</span></div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn">+ Thêm CTKM</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung CTKM…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card item-section" data-type="deadline">
+      <div class="card-head"><h2>Deadline</h2><span class="progress-pill" data-role="pill">1</span></div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn">+ Thêm Deadline</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung deadline…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card item-section" data-type="phatsinh">
+      <div class="card-head"><h2>Phát sinh</h2><span class="progress-pill" data-role="pill">1</span></div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn">+ Thêm việc phát sinh</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung phát sinh…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="card-head"><h2>Lịch sử gần đây</h2></div>
+      <div class="history-list" id="history-list"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const todayStr = new Date().toISOString().slice(0,10);
+document.getElementById('date-input').value = todayStr;
+document.getElementById('weekday-label').textContent = 'Hôm nay';
+
+let checklist = [
+  { item: 'Chụp ảnh BR', done: true },
+  { item: 'Trưng bày hoạt náo', done: false },
+  { item: 'Đăng bài Nhóm', done: true },
+  { item: 'TK DATE', done: false },
+  { item: 'Giá hot', done: false }
+];
+
+let items = {
+  ctkm: [{ id: '1', text: 'CTKM khăn giấy mới bắt đầu áp dụng từ hôm nay', done: true }],
+  deadline: [{ id: '2', text: 'Chốt số liệu tồn kho trước 17h thứ 6', done: false }],
+  phatsinh: [{ id: '3', text: 'Giao đơn chị Lanh, thu 275k', done: false }]
+};
+
+const history = [
+  { date: '2026-08-23', weekday: 'CN', done: 4, total: 5, summary: 'CTKM kết thúc — Đổi giá, xuất tri ân Nuvi' },
+  { date: '2026-08-22', weekday: 'Thứ 7', done: 3, total: 5, summary: 'Tạo đơn CK khăn giấy' },
+  { date: '2026-08-21', weekday: 'Thứ 6', done: 5, total: 5, summary: 'CTKM mới — Ký gửi BBNN' }
+];
+
+function renderChecklist() {
+  const list = document.getElementById('cl-list');
+  list.innerHTML = '';
+  let done = 0;
+  checklist.forEach((c, i) => {
+    if (c.done) done++;
+    const li = document.createElement('li');
+    li.className = 'checklist-item' + (c.done ? ' done' : '');
+    li.innerHTML = `<input type="checkbox" id="ci-${i}" ${c.done ? 'checked' : ''}><label for="ci-${i}">${c.item}</label>`;
+    li.querySelector('input').addEventListener('change', e => { checklist[i].done = e.target.checked; renderChecklist(); });
+    list.appendChild(li);
+  });
+  const pill = document.getElementById('cl-pill');
+  pill.textContent = `${done}/${checklist.length}`;
+  pill.classList.toggle('complete', done === checklist.length);
+}
+
+function renderItemSection(section) {
+  const type = section.dataset.type;
+  const list = section.querySelector('[data-role="list"]');
+  const pill = section.querySelector('[data-role="pill"]');
+  list.innerHTML = '';
+  const arr = items[type];
+  let done = 0;
+  if (!arr.length) list.innerHTML = '<li class="item-empty">Chưa có mục nào cho ngày này.</li>';
+  arr.forEach((entry, i) => {
+    if (entry.done) done++;
+    const li = document.createElement('li');
+    li.className = 'checklist-item' + (entry.done ? ' done' : '');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox'; cb.checked = entry.done;
+    cb.addEventListener('change', e => { entry.done = e.target.checked; renderItemSection(section); });
+    const label = document.createElement('label');
+    label.textContent = entry.text;
+    const rm = document.createElement('button');
+    rm.className = 'remove-item-btn'; rm.textContent = 'Xoá';
+    rm.addEventListener('click', () => { items[type].splice(i, 1); renderItemSection(section); });
+    li.appendChild(cb); li.appendChild(label); li.appendChild(rm);
+    list.appendChild(li);
+  });
+  pill.textContent = String(arr.length);
+  pill.classList.toggle('complete', arr.length > 0 && done === arr.length);
+}
+
+document.querySelectorAll('.item-section').forEach(section => {
+  const addBtn = section.querySelector('[data-role="add-btn"]');
+  const addForm = section.querySelector('[data-role="add-form"]');
+  const addText = section.querySelector('[data-role="add-text"]');
+  const addDate = section.querySelector('[data-role="add-date"]');
+  const addConfirm = section.querySelector('[data-role="add-confirm"]');
+  const addCancel = section.querySelector('[data-role="add-cancel"]');
+
+  addBtn.addEventListener('click', () => {
+    addForm.classList.remove('hidden');
+    addDate.value = document.getElementById('date-input').value;
+    addText.focus();
+  });
+  addCancel.addEventListener('click', () => { addForm.classList.add('hidden'); addText.value = ''; });
+  addConfirm.addEventListener('click', () => {
+    const text = addText.value.trim();
+    const date = addDate.value;
+    if (!text) return;
+    const type = section.dataset.type;
+    if (date === document.getElementById('date-input').value) {
+      items[type].push({ id: String(Math.random()), text, done: false });
+      renderItemSection(section);
+    } else {
+      const banner = document.getElementById('status-banner');
+      banner.textContent = `Đã thêm cho ngày ${date}.`;
+      banner.classList.remove('hidden');
+      setTimeout(() => banner.classList.add('hidden'), 2200);
+    }
+    addText.value = '';
+    addForm.classList.add('hidden');
+  });
+});
+
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  list.innerHTML = '';
+  history.forEach(h => {
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.innerHTML = `<div class="history-item-left"><div class="history-date">${h.date} · ${h.weekday}</div>
+      <div class="history-summary">${h.summary}</div></div><span class="history-progress">${h.done}/${h.total}</span>`;
+    list.appendChild(div);
+  });
+}
+
+document.querySelector('.card .save-btn').addEventListener('click', () => {
+  const banner = document.getElementById('status-banner');
+  banner.textContent = 'Đã lưu công việc định kỳ.';
+  banner.classList.remove('hidden');
+  setTimeout(() => banner.classList.add('hidden'), 2200);
+});
+
+renderChecklist();
+document.querySelectorAll('.item-section').forEach(renderItemSection);
+renderHistory();
+</script>
+</body>
+</html>

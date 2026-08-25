@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Công việc hằng ngày</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">CV</span>
+        <div class="brand-text">
+          <h1>Công việc hằng ngày</h1>
+          <p id="weekday-label">—</p>
+        </div>
+      </div>
+      <div class="date-nav">
+        <button id="prev-day" class="icon-btn" aria-label="Ngày trước">‹</button>
+        <input type="date" id="date-input">
+        <button id="next-day" class="icon-btn" aria-label="Ngày sau">›</button>
+        <button id="today-btn" class="icon-btn" aria-label="Về hôm nay" title="Về hôm nay">●</button>
+        <button id="settings-btn" class="icon-btn" aria-label="Cài đặt" title="Cài đặt">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div id="status-banner" class="status-banner hidden"></div>
+
+    <section class="card" id="checklist-card">
+      <div class="card-head">
+        <h2>Công việc định kỳ</h2>
+        <span class="progress-pill" id="progress-pill">0/0</span>
+      </div>
+      <ul class="checklist" id="checklist-list"></ul>
+      <button class="add-item-btn" id="add-checklist-item-btn" type="button">+ Thêm việc phát sinh cho ngày này</button>
+      <button class="save-btn save-btn-inline" id="save-checklist-btn">Lưu công việc định kỳ</button>
+    </section>
+
+    <section class="card item-section" data-type="ctkm">
+      <div class="card-head">
+        <h2>CTKM</h2>
+        <span class="progress-pill" data-role="pill">0</span>
+      </div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn" type="button">+ Thêm CTKM</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung CTKM…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button type="button" class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button type="button" class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card item-section" data-type="deadline">
+      <div class="card-head">
+        <h2>Deadline</h2>
+        <span class="progress-pill" data-role="pill">0</span>
+      </div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn" type="button">+ Thêm Deadline</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung deadline…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button type="button" class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button type="button" class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card item-section" data-type="phatsinh">
+      <div class="card-head">
+        <h2>Phát sinh</h2>
+        <span class="progress-pill" data-role="pill">0</span>
+      </div>
+      <ul class="checklist" data-role="list"></ul>
+      <button class="add-item-btn" data-role="add-btn" type="button">+ Thêm việc phát sinh</button>
+      <div class="add-form hidden" data-role="add-form">
+        <input type="text" placeholder="Nội dung phát sinh…" data-role="add-text">
+        <div class="add-form-row">
+          <input type="date" data-role="add-date">
+          <button type="button" class="add-form-confirm" data-role="add-confirm">Thêm</button>
+          <button type="button" class="add-form-cancel" data-role="add-cancel">Huỷ</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <div class="card-head">
+        <h2>Lịch sử gần đây</h2>
+      </div>
+      <div id="history-list" class="history-list"></div>
+    </section>
+
+  </main>
+
+</div>
+
+<div id="settings-overlay" class="overlay hidden">
+  <div class="settings-panel">
+    <h2>Cài đặt kết nối</h2>
+    <p class="settings-help">
+      Dán <strong>link Apps Script Web App</strong> (lấy sau khi Deploy trong Google Sheet —
+      không phải link chia sẻ sheet thông thường). Xem hướng dẫn trong README.
+    </p>
+    <input type="text" id="settings-url-input" placeholder="https://script.google.com/macros/s/xxxxx/exec">
+    <div class="settings-actions">
+      <button id="settings-save-btn" class="save-btn">Lưu</button>
+      <button id="settings-close-btn" class="settings-close">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
